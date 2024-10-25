@@ -26,7 +26,9 @@ cursor = cnxn.cursor()
 cursor.execute("USE northwind;")
 
 
+# --------------------------------------------------------------------
 # Sale data across countries
+
 # Retrieve data
 cursor.execute(
     """
@@ -48,9 +50,9 @@ sale_df = pd.DataFrame.from_records(
     coerce_float=True,
 )
 
+# Consider sorting by total revenue instead of country name
 sale_df["TotalSale"] = sale_df.UnitPrice * sale_df.Quantity * (1 - sale_df.Discount)
 total_sale_per_country = sale_df.groupby("ShipCountry")["TotalSale"].sum().to_frame()
-# Consider sorting by total revenue instead of country name
 
 # Plot data
 fig, ax = plt.subplots()
@@ -67,6 +69,9 @@ plt.title("Total revenue across different countries")
 
 plt.show()
 
+
+# --------------------------------------------------------------------
+#
 
 # Close connection
 cnxn.close()
